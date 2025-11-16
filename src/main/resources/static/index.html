@@ -1,25 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Web App</title>
+    <title>Math Lab Web App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #FFDEE9, #B5FFFC);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 { color: #444; }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 10px 5px 20px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #fef7f7;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #A3D2CA;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #FFE0AC; }
+
+        #result { font-size: 20px; font-weight: bold; margin-top: 15px; }
+
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            background-color: #FFF1F3;
+        }
+
+        footer { text-align: center; padding: 20px; font-size: 14px; color: #555; }
+    </style>
 </head>
 <body>
-    <h2>Math Lab - Arithmetic</h2>
-    <input id="num1" placeholder="Enter A">
-    <input id="num2" placeholder="Enter B">
-    <select id="op">
-        <option value="add">Addition</option>
-        <option value="subtract">Subtraction</option>
-        <option value="multiply">Multiplication</option>
-        <option value="divide">Division</option>
-    </select>
-    <button onclick="calculate()">Calculate</button>
-    <p id="result"></p>
+    <header>
+        <h1>🎨 Math Lab Web App</h1>
+    </header>
 
-    <h2>Fibonacci Curve</h2>
-    <input id="n" placeholder="Enter N" value="10">
-    <button onclick="drawFibonacci()">Draw</button>
-    <canvas id="fibCanvas" width="600" height="600" style="border:1px solid black"></canvas>
+    <div class="container">
+        <h2>Arithmetic Operations</h2>
+        <input id="num1" placeholder="Enter A">
+        <input id="num2" placeholder="Enter B">
+        <select id="op">
+            <option value="add">Addition</option>
+            <option value="subtract">Subtraction</option>
+            <option value="multiply">Multiplication</option>
+            <option value="divide">Division</option>
+        </select>
+        <button onclick="calculate()">Calculate</button>
+        <p id="result"></p>
+
+        <h2>Fibonacci Spiral</h2>
+        <input id="n" placeholder="Enter N" value="10">
+        <button onclick="drawFibonacci()">Draw</button>
+        <canvas id="fibCanvas" width="600" height="600"></canvas>
+    </div>
+
+    <footer>
+        Math Lab Web App &copy; 2025
+    </footer>
 
     <script>
         const backend = window.location.origin;
@@ -42,9 +113,29 @@
                     const ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+                    // Draw X and Y axes
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#A3D2CA"; // pastel green
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(canvas.width / 2, 0);
+                    ctx.lineTo(canvas.width / 2, canvas.height); // Y axis
+                    ctx.moveTo(0, canvas.height / 2);
+                    ctx.lineTo(canvas.width, canvas.height / 2); // X axis
+                    ctx.stroke();
+
+                    // Axis labels
+                    ctx.fillStyle = "#333";
+                    ctx.font = "14px Arial";
+                    ctx.fillText("Y", canvas.width / 2 + 5, 15);
+                    ctx.fillText("X", canvas.width - 20, canvas.height / 2 - 5);
+
+                    const colors = ["#FFD1DC", "#B5EAEA", "#FFDAC1", "#C7CEEA", "#F6EAC2"]; // pastel palette
+
+                    // Draw Fibonacci segments
                     segments.forEach((seg, idx) => {
                         ctx.beginPath();
-                        ctx.strokeStyle = ["blue","red","green","orange","purple"][idx%5];
+                        ctx.strokeStyle = colors[idx % colors.length];
+                        ctx.lineWidth = 2;
                         for(let i=0; i<seg.X.length; i++){
                             let x = seg.X[i]*5 + canvas.width/2;
                             let y = canvas.height/2 - seg.Y[i]*5;
