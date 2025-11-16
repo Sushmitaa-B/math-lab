@@ -6,6 +6,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 public class MathController {
+
     @GetMapping("/add")
     public double add(@RequestParam double a, @RequestParam double b) {
         return FibonacciCalculator.add(a, b);
