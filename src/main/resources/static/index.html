@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Lab Web App</title>
+    <title>🧮 SS AI Lab's Mathematical Assistant</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -66,7 +66,7 @@
 </head>
 <body>
     <header>
-        <h1> 🧮 Math Assisstant</h1>
+        <h1>🧮 SS AI Lab's Mathematical Assistant</h1>
     </header>
 
     <div class="container">
@@ -113,32 +113,67 @@
                     const ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    // Draw X and Y axes
+                    const centerX = canvas.width / 2;
+                    const centerY = canvas.height / 2;
+                    const scale = 5; // pixels per Fibonacci unit
+                    const tickStep = 50; // pixels per tick
+
+                    // Draw axes
                     ctx.beginPath();
                     ctx.strokeStyle = "#A3D2CA"; // pastel green axes
                     ctx.lineWidth = 1;
-                    ctx.moveTo(canvas.width / 2, 0);
-                    ctx.lineTo(canvas.width / 2, canvas.height); // Y axis
-                    ctx.moveTo(0, canvas.height / 2);
-                    ctx.lineTo(canvas.width, canvas.height / 2); // X axis
+                    ctx.moveTo(centerX, 0);
+                    ctx.lineTo(centerX, canvas.height); // Y axis
+                    ctx.moveTo(0, centerY);
+                    ctx.lineTo(canvas.width, centerY); // X axis
                     ctx.stroke();
 
-                    // Axis labels
+                    // Draw tick marks and units
                     ctx.fillStyle = "#333";
-                    ctx.font = "14px Arial";
-                    ctx.fillText("Y", canvas.width / 2 + 5, 15);
-                    ctx.fillText("X", canvas.width - 20, canvas.height / 2 - 5);
+                    ctx.font = "12px Arial";
 
-                    // Draw Fibonacci segments in blue
-                    ctx.strokeStyle = "#0000FF"; // blue color
+                    // X-axis ticks
+                    for (let x = centerX; x < canvas.width; x += tickStep) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, centerY-5);
+                        ctx.lineTo(x, centerY+5);
+                        ctx.stroke();
+                        ctx.fillText(Math.round((x - centerX)/scale), x-10, centerY+20);
+                    }
+                    for (let x = centerX; x > 0; x -= tickStep) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, centerY-5);
+                        ctx.lineTo(x, centerY+5);
+                        ctx.stroke();
+                        ctx.fillText(Math.round((x - centerX)/scale), x-10, centerY+20);
+                    }
+
+                    // Y-axis ticks
+                    for (let y = centerY; y < canvas.height; y += tickStep) {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX-5, y);
+                        ctx.lineTo(centerX+5, y);
+                        ctx.stroke();
+                        ctx.fillText(Math.round((centerY - y)/scale), centerX+10, y+5);
+                    }
+                    for (let y = centerY; y > 0; y -= tickStep) {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX-5, y);
+                        ctx.lineTo(centerX+5, y);
+                        ctx.stroke();
+                        ctx.fillText(Math.round((centerY - y)/scale), centerX+10, y+5);
+                    }
+
+                    // Draw Fibonacci spiral in blue
+                    ctx.strokeStyle = "#0000FF";
                     ctx.lineWidth = 2;
-                    segments.forEach((seg) => {
+                    segments.forEach(seg => {
                         ctx.beginPath();
                         for(let i=0; i<seg.X.length; i++){
-                            let x = seg.X[i]*5 + canvas.width/2;
-                            let y = canvas.height/2 - seg.Y[i]*5;
-                            if(i==0) ctx.moveTo(x,y);
-                            else ctx.lineTo(x,y);
+                            let x = seg.X[i]*scale + centerX;
+                            let y = centerY - seg.Y[i]*scale;
+                            if(i===0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
                         }
                         ctx.stroke();
                     });
