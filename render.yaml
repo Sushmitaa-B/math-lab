@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: math-webapp
+    env: docker
+    plan: free
+    autoDeploy: true
