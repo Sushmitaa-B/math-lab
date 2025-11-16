@@ -115,7 +115,7 @@
 
                     // Draw X and Y axes
                     ctx.beginPath();
-                    ctx.strokeStyle = "#A3D2CA"; // pastel green
+                    ctx.strokeStyle = "#A3D2CA"; // pastel green axes
                     ctx.lineWidth = 1;
                     ctx.moveTo(canvas.width / 2, 0);
                     ctx.lineTo(canvas.width / 2, canvas.height); // Y axis
@@ -129,13 +129,11 @@
                     ctx.fillText("Y", canvas.width / 2 + 5, 15);
                     ctx.fillText("X", canvas.width - 20, canvas.height / 2 - 5);
 
-                    const colors = ["#FFD1DC", "#B5EAEA", "#FFDAC1", "#C7CEEA", "#F6EAC2"]; // pastel palette
-
-                    // Draw Fibonacci segments
-                    segments.forEach((seg, idx) => {
+                    // Draw Fibonacci segments in blue
+                    ctx.strokeStyle = "#0000FF"; // blue color
+                    ctx.lineWidth = 2;
+                    segments.forEach((seg) => {
                         ctx.beginPath();
-                        ctx.strokeStyle = colors[idx % colors.length];
-                        ctx.lineWidth = 2;
                         for(let i=0; i<seg.X.length; i++){
                             let x = seg.X[i]*5 + canvas.width/2;
                             let y = canvas.height/2 - seg.Y[i]*5;
